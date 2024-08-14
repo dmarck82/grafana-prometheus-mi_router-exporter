@@ -1,0 +1,18 @@
+global:
+  scrape_interval: 15s # Intervalo de coleta de dados
+
+scrape_configs:
+  # Coleta de métricas do próprio Prometheus
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Coleta de métricas do Node Exporter
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+
+  # Coleta de métricas do MiWiFi Exporter
+  - job_name: 'miwifi-exporter'
+    static_configs:
+      - targets: ['miwifi-exporter:9001']

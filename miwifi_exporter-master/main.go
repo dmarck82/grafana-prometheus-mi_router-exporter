@@ -19,34 +19,35 @@ var (
 )
 
 func main() {
-	log.Println("欢迎使用小米路由器监控prometheus客户端，项目名miwifi_exporter，作者：Huck，欢迎提交issues、PullRequest")
-	log.Println("初始化程序")
+	log.Println("Bem-vindo ao cliente Prometheus para monitoramento de roteadores Xiaomi, projeto miwifi_exporter, autor: Huck. Sinta-se à vontade para enviar issues e Pull Requests.")
+	log.Println("Inicializando o programa")
 	flag.Parse()
 	config.GetConfig()
-	log.Println("初始化完成")
+	log.Println("Inicialização concluída")
 
-	log.Println("初始化监控指标")
+	log.Println("Inicializando métricas de monitoramento")
 	metrics := collector.NewMetrics(*metricsNamespace)
 	registry := prometheus.NewRegistry()
 	registry.MustRegister(metrics)
-	log.Println("监控指标初始化注册完成")
+	log.Println("Métricas de monitoramento registradas com sucesso")
 
-	log.Println("启动服务器，监听端口为:" + strconv.Itoa(config.Configs.Port))
+	log.Println("Iniciando o servidor, escutando na porta: " + strconv.Itoa(config.Configs.Port))
 	http.Handle(*metricsPath, promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		_, err := w.Write([]byte(`<html>
-			<head><title>A Prometheus Exporter</title></head>
+			<head><title>Um Exportador Prometheus</title></head>
 			<body>
-			<h1>A Prometheus Exporter</h1>
-			<p><a href='/metrics'>Metrics</a></p>
+			<h1>Um Exportador Prometheus</h1>
+			<p><a href='/metrics'>Métricas</a></p>
 			</body>
 			</html>`))
 		if err != nil {
-			log.Println("运行exporter错误", err)
+			log.Println("Erro ao executar o exportador", err)
 			os.Exit(1)
 		}
 	})
 
-	log.Printf("监控Metrics位置： http://localhost:%d%s", config.Configs.Port, *metricsPath)
+	log.Printf("Localização das Métricas de Monitoramento: http://localhost:%d%s", config.Configs.Port, *metricsPath)
 	log.Fatal(http.ListenAndServe(":"+strconv.Itoa(config.Configs.Port), nil))
 }
+

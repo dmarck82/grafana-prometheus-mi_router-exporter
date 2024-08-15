@@ -58,6 +58,20 @@ services:
       options:
         max-size: "10m"
 
+  pihole-exporter:
+    image: ekofr/pihole-exporter:latest
+    container_name: pihole-exporter
+    restart: always
+    ports:
+      - "9311:9311"
+    environment:
+      - PIHOLE_HOST=http://192.168.31.9/admin
+      - PIHOLE_APIKEY=resende123
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+
 volumes:
   grafana_data:
   prometheus_data:

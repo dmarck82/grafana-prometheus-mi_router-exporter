@@ -44,15 +44,15 @@ services:
         max-size: "10m"
 
   miwifi-exporter:
-    build: ./miwifi-exporter
+    build: ./miwifi_exporter
     image: miwifi-exporter:latest
     container_name: miwifi-exporter
     restart: always
     ports:
       - "9001:9001"
     environment:
-      - ROUTER_IP=XXX
-      - ROUTER_PASSWORD=XXX
+      - ROUTER_IP=192.168.31.1
+      - ROUTER_PASSWORD=R3sende!23
     logging:
       driver: "json-file"
       options:

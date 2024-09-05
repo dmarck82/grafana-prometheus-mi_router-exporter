@@ -8,7 +8,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./grafana/data:/var/lib/grafana
+      - grafana_data:/var/lib/grafana
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     logging:
@@ -23,6 +23,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
+      - prometheus_data:/prometheus
       - ./prometheus:/etc/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -58,20 +59,7 @@ services:
       options:
         max-size: "10m"
 
-  pihole-exporter:
-    image: ekofr/pihole-exporter:latest
-    container_name: pihole-exporter
-    restart: always
-    ports:
-      - "9311:9311"
-    environment:
-      - PIHOLE_HOST=http://192.168.31.9/admin
-      - PIHOLE_APIKEY=resende123
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-
 volumes:
   grafana_data:
   prometheus_data:
+
